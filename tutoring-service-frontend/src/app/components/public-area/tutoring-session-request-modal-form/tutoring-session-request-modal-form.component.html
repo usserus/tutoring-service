@@ -1,0 +1,166 @@
+<!-- Modal container -->
+@if (isModalOpen()) {
+  <div
+    class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+  >
+    <div
+      class="relative w-full max-w-xl md:max-w-2xl border border-slate-700 rounded-3xl bg-gray-950 p-4 max-h-[90vh] overflow-y-auto"
+    >
+      <!-- Modal header -->
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl">Termin anfragen</h2>
+        <button class="cursor-pointer" (click)="onCloseModal()">
+          <ng-icon name="heroXMark" size="30"></ng-icon>
+        </button>
+      </div>
+
+      <!-- Horizontal line -->
+      <div class="w-full h-px bg-slate-700 my-4"></div>
+
+      <!-- Modal body -->
+      <form
+        [formGroup]="tutoringSessionRequestModalForm"
+        (ngSubmit)="submitForm()"
+        class="flex flex-col gap-4"
+      >
+        <div>
+          <label>Datum*</label>
+          <div class="flex flex-col gap-2">
+            <input
+              type="date"
+              formControlName="date"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            />
+            @if (errors["date"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["date"] }}
+              </div>
+            }
+          </div>
+        </div>
+        <div>
+          <label>Uhrzeit*</label>
+          <div class="flex flex-col gap-2">
+            <input
+              type="time"
+              formControlName="time"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            />
+            @if (errors["time"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["time"] }}
+              </div>
+            }
+          </div>
+        </div>
+        <div>
+          <label>Dauer (in Minuten)*</label>
+          <div class="flex flex-col gap-2">
+            <input
+              type="number"
+              formControlName="duration"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            />
+            @if (errors["duration"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["duration"] }}
+              </div>
+            }
+          </div>
+        </div>
+        <div>
+          <label>Preisvorschlag</label>
+          <input
+            type="number"
+            formControlName="price"
+            class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+          />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label>Straße*</label>
+            <div class="flex flex-col gap-2">
+              <input
+                type="text"
+                formControlName="street"
+                class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+              />
+              @if (errors["street"]) {
+                <div class="text-xs text-red-400">
+                  {{ errors["street"] }}
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <label>Hausnummer*</label>
+            <div class="flex flex-col gap-2">
+              <input
+                type="text"
+                formControlName="houseNumber"
+                class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+              />
+              @if (errors["houseNumber"]) {
+                <div class="text-xs text-red-400">
+                  {{ errors["houseNumber"] }}
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <label>PLZ*</label>
+            <div class="flex flex-col gap-2">
+              <input
+                type="text"
+                formControlName="postalCode"
+                class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+              />
+              @if (errors["postalCode"]) {
+                <div class="text-xs text-red-400">
+                  {{ errors["postalCode"] }}
+                </div>
+              }
+            </div>
+          </div>
+          <div>
+            <label>Ort*</label>
+            <div class="flex flex-col gap-2">
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+              />
+              @if (errors["city"]) {
+                <div class="text-xs text-red-400">
+                  {{ errors["city"] }}
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div>
+          <label>Land*</label>
+          <div class="flex flex-col gap-2">
+            <input
+              type="text"
+              formControlName="country"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            />
+            @if (errors["country"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["country"] }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <app-button
+          type="submit"
+          variant="primary"
+          label="Anfrage absenden"
+          [disabled]="tutoringSessionRequestModalForm.invalid"
+        />
+      </form>
+    </div>
+  </div>
+}

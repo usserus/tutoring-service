@@ -1,0 +1,16 @@
+<div>
+  <div class="flex justify-between mb-4">
+    <h1>Meine Lehrveranstaltungen</h1>
+  </div>
+  <div class="flex flex-col gap-3">
+    @for (tutoringSubject of tutoringSubjects(); track tutoringSubject) {
+      <a class="custom-card" [routerLink]="getSlug(tutoringSubject.slug)">
+        <h2 class="mb-2">{{ tutoringSubject.title }}</h2>
+        <p class="text-sm">
+          Anzahl Kurse zur Lehrveranstaltung:
+          {{ tutoringSubject.topic_areas_count }}
+        </p>
+      </a>
+    }
+  </div>
+</div>

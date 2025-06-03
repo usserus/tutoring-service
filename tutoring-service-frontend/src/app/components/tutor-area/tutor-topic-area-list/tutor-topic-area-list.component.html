@@ -1,0 +1,84 @@
+<div>
+  <div class="flex justify-between">
+    <h1 class="mb-4">Meine Kurse zu {{ tutoringSubject()?.title }}</h1>
+    <app-button
+      variant="primary"
+      label="Neuen Kurs hinzufügen"
+      (click)="openModal(null, tutoringSubject()?.id)"
+    ></app-button>
+  </div>
+  <div class="flex flex-col gap-3 cursor-pointer">
+    @for (topicArea of tutoringSubject()?.topic_areas; track topicArea) {
+      <div class="custom-card" [routerLink]="getSlug(topicArea.slug)">
+        <div class="flex justify-between">
+          <h2 class="mb-2">{{ topicArea.title }}</h2>
+          <ng-icon
+            name="heroCog6Tooth"
+            size="24"
+            class="cursor-alias z-50"
+            (click)="
+              openModal(topicArea.slug, tutoringSubject()?.id);
+              $event.stopPropagation()
+            "
+          ></ng-icon>
+        </div>
+        <div class="flex flex-wrap gap-3 items-center">
+          <span class="text-xs">Termine: </span>
+          @if (
+            !topicArea.pending_tutoring_sessions_count &&
+            !topicArea.requested_tutoring_sessions_count &&
+            !topicArea.booked_tutoring_sessions_count &&
+            !topicArea.available_tutoring_sessions_count &&
+            !topicArea.completed_tutoring_sessions_count
+          ) {
+            <span class="text-xs italic">Keine Termine</span>
+          }
+          @if (topicArea.pending_tutoring_sessions_count > 0) {
+            <app-badge
+              label="Noch zu bestätigen: {{
+                topicArea.pending_tutoring_sessions_count
+              }}"
+            ></app-badge>
+          }
+          @if (topicArea.requested_tutoring_sessions_count > 0) {
+            <app-badge
+              label="Offene Anfragen: {{
+                topicArea.requested_tutoring_sessions_count
+              }}"
+              variant="requested"
+            ></app-badge>
+          }
+          @if (topicArea.booked_tutoring_sessions_count > 0) {
+            <app-badge
+              variant="completed"
+              label="Anstehend: {{ topicArea.booked_tutoring_sessions_count }}"
+            ></app-badge>
+          }
+          @if (topicArea.available_tutoring_sessions_count > 0) {
+            <app-badge
+              variant="completed"
+              label="Angeboten: {{
+                topicArea.available_tutoring_sessions_count
+              }}"
+            ></app-badge>
+          }
+          @if (topicArea.completed_tutoring_sessions_count > 0) {
+            <app-badge
+              variant="completed"
+              label="Abgeschlossen: {{
+                topicArea.completed_tutoring_sessions_count
+              }}"
+            ></app-badge>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <app-tutor-topic-area-modal-form
+    [topicAreaSlug]="editedTopicAreaSlug()"
+    [tutoringSubjectId]="tutoringSubjectId()"
+    [isModalOpen]="isModalOpen"
+    (closeModal)="closeModal()"
+  >
+  </app-tutor-topic-area-modal-form>
+</div>

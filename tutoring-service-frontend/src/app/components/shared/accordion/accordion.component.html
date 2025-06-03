@@ -1,0 +1,12 @@
+<!--https://stackblitz.com/edit/angular-8zve4z?file=src%2Fapp%2Faccordion%2Faccordion.component.css-->
+<div class="border rounded-lg">
+  <h3 class="p-3 cursor-pointer" (click)="opened = !opened">{{ title }}</h3>
+  <div
+    class="overflow-hidden transition-all duration-1000"
+    [ngClass]="{ 'max-h-0': !opened, 'max-h-[630px]': opened }"
+  >
+    <div class="mx-5">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

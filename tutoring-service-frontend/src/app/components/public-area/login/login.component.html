@@ -1,0 +1,80 @@
+@if (!isLoggedIn()) {
+  <div class="absolute top-1/2 left-1/2 -translate-1/2 mt-10">
+    <div class="max-w-2-xl border border-slate-700 rounded-3xl bg-gray-950 p-6">
+      <h1 class="mb-4">Login</h1>
+      <div class="w-full h-px bg-slate-700 my-4"></div>
+      <form
+        class="flex flex-col gap-4"
+        [formGroup]="loginForm"
+        (ngSubmit)="login()"
+      >
+        <div>
+          <label>E-Mail</label>
+          <input
+            type="email"
+            id="username"
+            formControlName="username"
+            class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+          />
+          @if (
+            loginForm.get("username")?.invalid &&
+            (loginForm.get("username")?.dirty ||
+              loginForm.get("username")?.touched) &&
+            loginForm.get("username")?.hasError("required")
+          ) {
+            <div class="ui negative message">
+              Benutzername ist verpflichtend
+            </div>
+          }
+          @if (
+            loginForm.get("username")?.invalid &&
+            (loginForm.get("username")?.dirty ||
+              loginForm.get("username")?.touched) &&
+            loginForm.get("username")?.hasError("email")
+          ) {
+            <div class="ui negative message">E-Mail Format überprüfen</div>
+          }
+        </div>
+        <div>
+          <label>Passwort</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+          />
+          @if (
+            loginForm.get("password")?.invalid &&
+            (loginForm.get("password")?.dirty ||
+              loginForm.get("password")?.touched)
+          ) {
+            <div class="ui negative message">Passwort ist verpflichtend</div>
+          }
+        </div>
+        <app-button type="submit" label="Login"></app-button>
+      </form>
+    </div>
+  </div>
+}
+@if (isLoggedIn()) {
+  <div class="absolute top-1/2 left-1/2 -translate-1/2 mt-10">
+    <div class="max-w-2-xl border border-slate-700 rounded-3xl bg-gray-950 p-6">
+      <h1 class="mb-4">Wollen Sie sich wirklich ausloggen?</h1>
+      <div class="w-full h-px bg-slate-700 my-4"></div>
+      <div class="flex gap-4">
+        <app-button
+          type="button"
+          label="Abbrechen"
+          variant="primary-outline"
+          [routerLink]="'/'"
+        ></app-button>
+        <app-button
+          type="button"
+          label="Jetzt ausloggen"
+          (click)="logout()"
+          variant="primary"
+          [routerLink]="'/login'"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+}

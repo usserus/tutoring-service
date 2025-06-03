@@ -1,0 +1,105 @@
+<div>
+  <h1 class="text-5xl! mb-4">{{ topicArea()?.title }}</h1>
+  <div class="grid grid-rows-2 gap-4 mb-4">
+    <!-- Zeile 1 -->
+    <div class="grid grid-cols-3 gap-4">
+      <div class="col-span-1 feature-box flex items-center gap-3">
+        <ng-icon name="heroSquare3Stack3d" size="30"></ng-icon>
+        <div class="flex flex-col gap-1">
+          <span class="text-xs">Lehrveranstaltung</span>
+          <span>{{ topicArea()?.tutoring_subject?.title }}</span>
+        </div>
+      </div>
+      <div class="col-span-2 feature-box flex items-center gap-3">
+        <span> {{ topicArea()?.description }} </span>
+      </div>
+    </div>
+
+    <!-- Zeile 2 -->
+    <div class="grid grid-cols-3 gap-4">
+      <div class="feature-box flex items-center gap-3">
+        <ng-icon name="heroUser" size="30"></ng-icon>
+        <div class="flex flex-col gap-1">
+          <span class="text-xs">Leitung</span>
+          <span>{{ getFullName(topicArea()?.tutor) }}</span>
+        </div>
+      </div>
+
+      <div class="feature-box flex items-center gap-3">
+        <ng-icon name="heroCurrencyEuro" size="30"></ng-icon>
+        <div class="flex flex-col gap-1">
+          <span class="text-xs">Ab</span>
+          <span>{{ topicArea()?.lowest_price }} €</span>
+        </div>
+      </div>
+      <div class="feature-box flex items-center gap-3">
+        <ng-icon name="heroCalendarDays" size="30"></ng-icon>
+        <div class="flex flex-col gap-1">
+          <span class="text-xs">Erstellt am</span>
+          <span>{{ topicArea()?.created_at | date: "dd.MM.yyyy" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feature-box bg-gradient-to-b from-gray-950 to-gray-900">
+    <div class="flex justify-between items-center mb-4">
+      <h2>Verfügbare Termine</h2>
+      @if (isLoggedIn()) {
+        <div>
+          <app-button
+            (click)="openModal()"
+            variant="primary"
+            label="Termin anfragen"
+          />
+        </div>
+      }
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      @for (
+        tutoringSession of topicArea()?.tutoring_sessions;
+        track tutoringSession
+      ) {
+        <div class="feature-box-item flex flex-col gap-3">
+          <div class="flex justify-between">
+            <span> {{ tutoringSession?.start_time | date: "dd.MM.yyyy" }}</span>
+            <span>{{ tutoringSession?.price }} €</span>
+          </div>
+          <div class="flex justify-between items-end">
+            <div>
+              <div class="mb-2">
+                <span class="mr-4">{{ tutoringSession?.duration }} min</span>
+                <span class="text-xs">
+                  {{
+                    getTimeRange(
+                      tutoringSession.start_time,
+                      tutoringSession.duration
+                    )
+                  }}
+                </span>
+              </div>
+              <div class="flex flex-row items-center gap-1">
+                <ng-icon name="heroMapPin" size="13"></ng-icon>
+                <span class="text-xs">
+                  {{ getFullLocation(tutoringSession.location) }}
+                </span>
+              </div>
+            </div>
+            @if (isLoggedIn()) {
+              <app-button
+                variant="secondary"
+                label="Jetzt buchen"
+                (click)="requestTutoringSession(tutoringSession)"
+              />
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <app-tutoring-session-request-modal-form
+    [isModalOpen]="isModalOpen"
+    (closeModal)="closeModal()"
+    [topicArea]="topicArea()"
+  >
+  </app-tutoring-session-request-modal-form>
+</div>

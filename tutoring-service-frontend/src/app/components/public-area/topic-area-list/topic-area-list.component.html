@@ -1,0 +1,24 @@
+<div>
+  <h1 class="mb-4">{{ tutoringSubject()?.title }}</h1>
+  <div class="flex flex-col gap-3">
+    @for (topicArea of tutoringSubject()?.topic_areas; track topicArea) {
+      <a class="custom-card" [routerLink]="getSlug(topicArea.slug)">
+        <div class="flex justify-between">
+          <h2>{{ topicArea.title }}</h2>
+          @if (topicArea.lowest_price) {
+            <span>Ab {{ topicArea.lowest_price }} €</span>
+          }
+        </div>
+        <p class="line-clamp-2 text-sm my-2 max-w-md">
+          {{ topicArea.description }}
+        </p>
+        @if (topicArea.available_tutoring_sessions_count) {
+          <span
+            >Verfügbare Termine:
+            {{ topicArea.available_tutoring_sessions_count }}</span
+          >
+        }
+      </a>
+    }
+  </div>
+</div>

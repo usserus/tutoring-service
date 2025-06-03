@@ -1,0 +1,302 @@
+@if (isModalOpen()) {
+  <div
+    class="modal fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+  >
+    <div
+      class="relative w-full max-w-xl md:max-w-2xl border border-slate-700 rounded-3xl bg-gray-950 p-4 max-h-[90vh] overflow-y-auto"
+    >
+      <!-- Modal header -->
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl">
+          {{
+            isUpdatingTopicArea() ? "Kurs bearbeiten" : "Neuen Kurs hinzufügen"
+          }}
+        </h2>
+        <button class="cursor-pointer" (click)="onCloseModal()">
+          <ng-icon name="heroXMark" size="30"></ng-icon>
+        </button>
+      </div>
+
+      <!-- Horizontal line -->
+      <div class="w-full h-px bg-slate-700 my-4"></div>
+
+      <!-- Modal body -->
+      <form
+        [formGroup]="topicAreaModalForm"
+        (ngSubmit)="submitForm()"
+        class="flex flex-col gap-4"
+      >
+        <div>
+          <label>Titel*</label>
+          <div class="flex flex-col gap-2">
+            <input
+              type="text"
+              formControlName="title"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            />
+            @if (errors["title"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["title"] }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <div>
+          <label>Beschreibung*</label>
+          <div class="flex flex-col gap-2">
+            <textarea
+              formControlName="description"
+              class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+            ></textarea>
+            @if (errors["description"]) {
+              <div class="text-xs text-red-400">
+                {{ errors["description"] }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <div>
+          <label>Termine</label>
+          <div formArrayName="tutoringSessions">
+            @for (
+              tutoringSession of tutoringSessions.controls;
+              let i = $index, l = $last;
+              track i
+            ) {
+              <div [formGroupName]="i" class="mb-3 mt-1">
+                <app-accordion
+                  [title]="
+                    handleFormatStartTime(
+                      tutoringSession.get('startTime')?.value
+                    ) +
+                    (tutoringSession.get('student')?.value
+                      ? ' – ' +
+                        getStudentNameById(
+                          tutoringSession.get('student')?.value
+                        )
+                      : '')
+                  "
+                >
+                  <input type="hidden" formControlName="id" />
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label>Datum*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="datetime-local"
+                          formControlName="startTime"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("startTime")
+                            ?.invalid &&
+                          (this.tutoringSessions.at(i).get("startTime")
+                            ?.dirty ||
+                            this.tutoringSessions.at(i).get("startTime")
+                              ?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Datum und Uhrzeit ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <label>Dauer (in Minuten)*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="number"
+                          formControlName="duration"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("duration")
+                            ?.invalid &&
+                          (this.tutoringSessions.at(i).get("duration")?.dirty ||
+                            this.tutoringSessions.at(i).get("duration")
+                              ?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Dauer ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <label>Preis</label>
+                      <input
+                        type="number"
+                        formControlName="price"
+                        class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                      />
+                    </div>
+                    <div>
+                      <label>Status*</label>
+                      <select
+                        type="text"
+                        formControlName="status"
+                        class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                      >
+                        <option value="available">Verfügbar</option>
+                        <option value="booked">Gebucht</option>
+                        <option value="requested">Angefragt</option>
+                        <option value="completed">Abgeschlossen</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Horizontal line -->
+                  <div class="w-full h-px bg-slate-700 my-4"></div>
+
+                  <div class="mb-5">
+                    <label>Student</label>
+                    <select
+                      formControlName="student"
+                      class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                    >
+                      <option [ngValue]="null">Bitte auswählen</option>
+                      @for (student of students; track student.id) {
+                        <option [ngValue]="student.id">
+                          {{ student.first_name }} {{ student.last_name }}
+                        </option>
+                      }
+                    </select>
+                  </div>
+
+                  <!-- Horizontal line -->
+                  <div class="w-full h-px bg-slate-700 my-4"></div>
+
+                  <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label>Straße*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="text"
+                          formControlName="street"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("street")?.invalid &&
+                          (this.tutoringSessions.at(i).get("street")?.dirty ||
+                            this.tutoringSessions.at(i).get("street")?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Straße ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <label>Hausnummer*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="number"
+                          formControlName="houseNumber"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("houseNumber")
+                            ?.invalid &&
+                          (this.tutoringSessions.at(i).get("houseNumber")
+                            ?.dirty ||
+                            this.tutoringSessions.at(i).get("houseNumber")
+                              ?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Hausnummer ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <label>Postleitzahl*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="number"
+                          formControlName="postalCode"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("postalCode")
+                            ?.invalid &&
+                          (this.tutoringSessions.at(i).get("postalCode")
+                            ?.dirty ||
+                            this.tutoringSessions.at(i).get("postalCode")
+                              ?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Postleitzahl ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                    <div>
+                      <label>Ort*</label>
+                      <div class="flex flex-col gap-2">
+                        <input
+                          type="text"
+                          formControlName="city"
+                          class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                        />
+                        @if (
+                          this.tutoringSessions.at(i).get("city")?.invalid &&
+                          (this.tutoringSessions.at(i).get("city")?.dirty ||
+                            this.tutoringSessions.at(i).get("city")?.touched)
+                        ) {
+                          <div class="text-xs text-red-400">
+                            Ort ist erforderlich.
+                          </div>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-5">
+                    <label>Land*</label>
+                    <div class="flex flex-col gap-2">
+                      <input
+                        type="text"
+                        formControlName="country"
+                        class="w-full mt-1 p-2 border border-slate-700 rounded-lg bg-gray-900 text-white"
+                      />
+                      @if (
+                        this.tutoringSessions.at(i).get("country")?.invalid &&
+                        (this.tutoringSessions.at(i).get("country")?.dirty ||
+                          this.tutoringSessions.at(i).get("country")?.touched)
+                      ) {
+                        <div class="text-xs text-red-400">
+                          Land ist erforderlich.
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </app-accordion>
+                @if (l) {
+                  <div class="mt-6 flex justify-center">
+                    <app-button
+                      variant="secondary"
+                      label="Weiteren Termin hinzufügen"
+                      (click)="addTutoringSessionControl()"
+                    />
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <app-button
+          type="submit"
+          variant="primary"
+          label="{{
+            isUpdatingTopicArea()
+              ? 'Speichern'
+              : 'Neu erstellten Kurs speichern'
+          }}"
+          [disabled]="topicAreaModalForm.invalid"
+        />
+      </form>
+    </div>
+  </div>
+}

@@ -1,0 +1,13 @@
+@if (!isButton()) {
+  <span [ngClass]="getBadgeClasses()">
+    <span>{{ label() }}</span>
+  </span>
+} @else {
+  <button
+    (click)="badgeClicked.emit()"
+    [ngClass]="combinedClasses()"
+    [disabled]="disabled()"
+  >
+    <span>{{ label() }}</span>
+  </button>
+}

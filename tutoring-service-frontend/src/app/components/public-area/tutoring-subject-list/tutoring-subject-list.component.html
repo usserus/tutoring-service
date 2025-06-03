@@ -1,0 +1,18 @@
+<div>
+  <h1 class="mb-4">Lehrveranstaltungen</h1>
+  <div class="grid grid-cols-3 gap-3">
+    @for (tutoringSubject of tutoringSubjects(); track tutoringSubject) {
+      <a class="custom-card" [routerLink]="getSlug(tutoringSubject.slug)">
+        <h2 class="mb-2">{{ tutoringSubject.title }}</h2>
+        <div class="flex items-center gap-2">
+          <ng-icon name="heroUser" size="22"></ng-icon>
+          <span>{{ getFullName(tutoringSubject.tutor) }}</span>
+        </div>
+        <p class="line-clamp-3 text-sm my-2">
+          {{ tutoringSubject.description }}
+        </p>
+        <span>Verfügbare Kurse: {{ tutoringSubject.topic_areas_count }}</span>
+      </a>
+    }
+  </div>
+</div>

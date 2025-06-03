@@ -1,0 +1,31 @@
+<div class="flex flex-col gap-2 sticky top-26">
+  <span class="text-lg mb-2">Menu</span>
+  <a
+    routerLink="/lehrveranstaltungen"
+    routerLinkActive="sidebar-link-active"
+    class="sidebar-link"
+  >
+    <ng-icon name="heroClipboardDocumentList" size="22"></ng-icon>
+    <p>Lehrveranstaltungen</p>
+  </a>
+  @if (isLoggedIn()) {
+    <a
+      routerLink="/meine-termine"
+      routerLinkActive="sidebar-link-active"
+      class="sidebar-link"
+    >
+      <ng-icon name="heroCalendarDays" size="22"></ng-icon>
+      <p>Meine Termine</p>
+    </a>
+  }
+  @if (isLoggedIn() && isTutor()) {
+    <a
+      routerLink="/kurse-verwalten"
+      routerLinkActive="sidebar-link-active"
+      class="sidebar-link"
+    >
+      <ng-icon name="heroAdjustmentsHorizontal" size="22"></ng-icon>
+      <p>Kurse verwalten</p>
+    </a>
+  }
+</div>
