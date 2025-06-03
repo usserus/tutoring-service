@@ -33,18 +33,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Auth
+// Authentication Routes
 Route::post('auth/login', [AuthController::class, 'login']);
 
 
 // **** Public available routes ****
 // TutoringSubject Routes
 Route::get('public/tutoring-subjects', [TutoringSubjectController::class, 'publicIndex']);
-Route::get('public/tutoring-subjects/find/{id}', [TutoringSubjectController::class, 'findById']); // This route is not needed based on current task requirements
 Route::get('public/tutoring-subjects/{tutoringSubjectSlug}', [TutoringSubjectController::class, 'showPublicDetailsBySlug']);
 
 // TopicArea Routes
-Route::get('public/topic-areas', [TopicAreaController::class, 'publicIndex']); // This route is not needed based on current task requirements
 Route::get('public/topic-areas/{topicAreaSlug}', [TopicAreaController::class, 'showPublicDetailsBySlug']);
 
 
@@ -63,26 +61,17 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function () {
 Route::group(['middleware' => ['api', 'auth.jwt', 'auth.isTutor']], function () {
 
     // User Routes
-    Route::get('users/{id}', [UserController::class, 'findById']); // This route is not needed based on current task requirements
     Route::get('tutor/users', [UserController::class, 'tutorIndex']);
 
     // TutoringSubject Routes
     Route::get('tutor/tutoring-subjects', [TutoringSubjectController::class, 'tutorIndex']);
     Route::get('tutor/tutoring-subjects/{tutoringSubjectSlug}', [TutoringSubjectController::class, 'showTutorDetailsBySlug']);
-    Route::post('tutor/tutoring-subjects', [TutoringSubjectController::class, 'saveForTutor']); // This route is not needed based on current task requirements
-    Route::put('tutor/tutoring-subjects/{id}', [TutoringSubjectController::class, 'updateForTutor']); // This route is not needed based on current task requirements
-    Route::delete('tutor/tutoring-subjects/{id}', [TutoringSubjectController::class, 'deleteForTutor']); // This route is not needed based on current task requirements
 
     // TopicArea Routes
-    Route::get('tutor/topic-areas', [TopicAreaController::class, 'tutorIndex']); // This route is not needed based on current task requirements
     Route::get('tutor/topic-areas/{topicAreaSlug}', [TopicAreaController::class, 'showTutorDetailsBySlug']);
     Route::post('tutor/topic-areas', [TopicAreaController::class, 'saveForTutor']);
     Route::put('tutor/topic-areas/{id}', [TopicAreaController::class, 'updateForTutor']);
-    Route::delete('tutor/topic-areas/{id}', [TopicAreaController::class, 'deleteForTutor']); // This route is not needed based on current task requirements
 
     // TutoringSession Routes
-    Route::get('tutor/tutoring-sessions', [TutoringSessionController::class, 'tutorIndex']); // This route is not needed based on current task requirements
-    Route::post('tutor/tutoring-sessions', [TutoringSessionController::class, 'saveForTutor']); // This route is not needed based on current task requirements
     Route::put('tutor/tutoring-sessions/{id}', [TutoringSessionController::class, 'updateForTutor']);
-    Route::delete('tutor/tutoring-sessions/{id}', [TutoringSessionController::class, 'delete']); // This route is not needed based on current task requirements
 });

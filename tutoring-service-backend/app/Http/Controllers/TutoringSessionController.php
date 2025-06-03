@@ -8,7 +8,6 @@ use App\Models\TutoringSession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 
 class TutoringSessionController extends Controller
 {
@@ -25,37 +24,6 @@ class TutoringSessionController extends Controller
             ])
             ->get();
         return response()->json($tutoringSessions, 200);
-    }
-
-    // This method is not needed based on current task requirements
-    // Retrieve all tutoring sessions for a tutor
-    public function tutorIndex(): JsonResponse
-    {
-        $user = auth()->user();
-        $tutoringSessions = TutoringSession::where('tutor_id', $user->id)
-            ->with([
-                'student:id,first_name,last_name',
-                'location:id,street,house_number,postal_code,city,country',
-            ])
-            ->get();
-        $completedTotal = $tutoringSessions
-            ->where('status', 'completed')
-            ->sum('price');
-
-        $requestedCount = $tutoringSessions
-            ->where('status', 'requested')
-            ->count();
-        $requestedTotal = $tutoringSessions
-            ->where('status', 'requested')
-            ->sum('price');
-        return response()->json([
-            'tutoring_sessions' => $tutoringSessions,
-            'stats' => [
-                'completed_total_price' => $completedTotal,
-                'requested_count' => $requestedCount,
-                'requested_total_price' => $requestedTotal,
-            ]
-        ], 200);
     }
 
     // Save a new tutoring session for a student
@@ -78,31 +46,6 @@ class TutoringSessionController extends Controller
             $tutoringSession->duration = $request->duration;
             $tutoringSession->price = $request->price;
             $tutoringSession->status = 'requested'; // default always 'requested' for student-initiated sessions
-            $this->assignTopicAreaTutorAndLocation($request, $tutoringSession);
-
-            $tutoringSession->save();
-            DB::commit();
-            return response()->json($tutoringSession, 201);
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['message' => 'Error saving tutoring session: ' . $e->getMessage()], 500);
-        }
-    }
-
-    // This method is not needed based on current task requirements
-    // Save a new tutoring session for a tutor
-    public function saveForTutor(Request $request): JsonResponse
-    {
-        DB::beginTransaction();
-
-        try {
-            $tutoringSession = new TutoringSession();
-            $tutoringSession->student_id = $request->student_id ?? null; // Null if no Student is assigned
-            $tutoringSession->start_time = $request->start_time;
-            $tutoringSession->duration = $request->duration;
-            $tutoringSession->price = $request->price;
-            $tutoringSession->status = $request->status;
             $this->assignTopicAreaTutorAndLocation($request, $tutoringSession);
 
             $tutoringSession->save();
@@ -158,26 +101,6 @@ class TutoringSessionController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Updating tutoring session failed', $e->getMessage()], 500);
-        }
-    }
-
-    // This method is not needed based on current task requirements
-    // Delete a tutoring session
-    public function delete(string $id): JsonResponse
-    {
-        DB::beginTransaction();
-        $tutoringSession = TutoringSession::where('id', $id)->first();
-
-        if ($tutoringSession != null) {
-            // Check if the user is the assigned tutor of the tutoring session
-            if (!Gate::allows('own-tutoring-session', $tutoringSession)) {
-                return response()->json(['message' => 'You are not allowed to delete this tutoring session!'], 403);
-            }
-            $tutoringSession->delete();
-            DB::commit();
-            return response()->json('tutoring session with id ' . $id . ' deleted', 200);
-        } else {
-            return response()->json(['message' => 'Tutoring session with id ' . $id . ' not found!'], 404);
         }
     }
 

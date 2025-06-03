@@ -9,53 +9,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
 
 class TopicAreaController extends Controller
 {
-    // This method is not needed based on current task requirements
-    // Retrieve all topic areas public
-    public function publicIndex(): JsonResponse
-    {
-        $topicAreas = TopicArea::withCount([
-            'tutoringSessions' => function ($query) {
-                $query->where('status', 'available');
-            }
-        ])->get()
-            ->map(function ($topicArea) {
-                $topicArea->lowest_price = $topicArea->tutoringSessions()
-                    ->where('status', 'available')
-                    ->min('price');
-                return $topicArea;
-            });
-        return response()->json($topicAreas, 200);
-    }
-
-
-    // This method is not needed based on current task requirements
-    // Retrieve all topic areas owned by tutor
-    public function tutorIndex(): JsonResponse
-    {
-        $user = auth()->user();
-        $topicAreas = TopicArea::select('id', 'title', 'description')
-            ->where('tutor_id', $user->id)
-            ->withCount([
-                'tutoringSessions as available_sessions_count' => function ($query) {
-                    $query->where('status', 'available');
-                },
-                'tutoringSessions as requested_sessions_count' => function ($query) {
-                    $query->where('status', 'requested');
-                },
-                'tutoringSessions as booked_sessions_count' => function ($query) {
-                    $query->where('status', 'booked');
-                },
-                'tutoringSessions as completed_sessions_count' => function ($query) {
-                    $query->where('status', 'completed');
-                }
-            ])->get();
-        return response()->json($topicAreas, 200);
-    }
-
     // Retrieve topic area with stats and tutoring sessions by slug
     public function showPublicDetailsBySlug(string $topicAreaSlug): JsonResponse
     {
@@ -119,7 +75,6 @@ class TopicAreaController extends Controller
             : response()->json(['message' => 'Topic area not found'], 404);
     }
 
-
     // Save a new topic area with tutoring sessions
     public function saveForTutor(Request $request): JsonResponse
     {
@@ -180,27 +135,6 @@ class TopicAreaController extends Controller
             return response()->json(['message' => 'Updating topic area failed', $e->getMessage()], 500);
         }
     }
-
-
-    // This method is not needed based on current task requirements
-    // Delete topic area
-    public function deleteForTutor(int $id): JsonResponse
-    {
-        DB::beginTransaction();
-        $topicArea = TopicArea::where('id', $id)->first();
-
-        if ($topicArea != null) {
-            if (!Gate::allows('own-topic-area', $topicArea)) {
-                return response()->json(['message' => 'You are not allowed to delete this topic area!'], 403);
-            }
-            $topicArea->delete();
-            DB::commit();
-            return response()->json(['message' => 'Topic area deleted'], 200);
-        } else {
-            return response()->json(['message' => 'Topic area not found'], 404);
-        }
-    }
-
 
     // Helper function to parse request and format start_time
     private function parseRequest(Request $request): Request
