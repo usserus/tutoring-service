@@ -2,14 +2,7 @@ import {Component, OnInit, signal, inject} from '@angular/core';
 import {TutoringDataService} from '../../../services/tutoring-data.service';
 import {TopicAreaWithTutoringSessions} from '../../../models/topic-area';
 import {ActivatedRoute} from '@angular/router';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {
-  heroSquare3Stack3d,
-  heroUser,
-  heroCurrencyEuro,
-  heroCalendarDays,
-  heroMapPin,
-} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 import {getFullName} from '../../../utils/get-full-name';
 import {User} from '../../../models/user';
 import {ButtonComponent} from '../../shared/button/button.component';
@@ -33,15 +26,7 @@ import {Address} from '../../../models/address';
   ],
   templateUrl: './topic-area-detail.component.html',
   providers: [
-    {provide: TutoringDataService, useClass: TutoringDataService},
-    provideIcons({
-      heroSquare3Stack3d,
-      heroUser,
-      heroCurrencyEuro,
-      heroCalendarDays,
-      heroMapPin,
-    }),
-  ],
+    {provide: TutoringDataService, useClass: TutoringDataService}],
   standalone: true,
 })
 export class TopicAreaDetailComponent implements OnInit {

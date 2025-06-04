@@ -8,8 +8,7 @@ import {
   signal,
   Signal,
 } from '@angular/core';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroXMark} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 import {
   FormArray,
   FormBuilder,
@@ -34,7 +33,6 @@ import {formatDateToDatetimeLocal} from '../../../utils/format-date-to-datetime-
   selector: 'app-tutor-topic-area-modal-form',
   imports: [NgIcon, ReactiveFormsModule, ButtonComponent, AccordionComponent],
   templateUrl: './tutor-topic-area-modal-form.component.html',
-  providers: [provideIcons({heroXMark})],
   standalone: true,
   styles: `
     .modal {

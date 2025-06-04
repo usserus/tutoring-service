@@ -12,7 +12,7 @@ import {DatePipe} from '@angular/common';
 import {User} from '../../../models/user';
 import {Address} from '../../../models/address';
 import {TutoringSessionRequestFactory} from '../../../models/Factorys/tutoring-session-request-factory';
-import {translateStatus} from '../../../utils/status-translation';
+import {getStatusTranslation} from '../../../utils/status-translation';
 
 @Component({
   selector: 'app-tutor-tutoring-session-list',
@@ -90,6 +90,6 @@ export class TutorTutoringSessionListComponent implements OnInit {
   }
 
   getStatusTranslation(status: string): string {
-    return translateStatus(status, 'tutor');
+    return getStatusTranslation(status, 'tutor');
   }
 }

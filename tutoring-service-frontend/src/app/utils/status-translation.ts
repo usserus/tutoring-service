@@ -14,7 +14,7 @@ export const statusTranslationMap = {
 };
 
 // Source: ChatGpt
-export function translateStatus(status: string, role: string): string {
+export function getStatusTranslation(status: string, role: string): string {
   // Cast role to keys of statusTranslationMap to satisfy TypeScript
   const roleKey = role as keyof typeof statusTranslationMap;
 

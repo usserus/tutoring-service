@@ -10,11 +10,22 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-
 import {routes} from './app.routes';
 import {TokenInterceptorService} from './services/token-interceptor.service';
 import {registerLocaleData} from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import {provideIcons} from '@ng-icons/core';
+import {
+  heroMapPin,
+  heroUser,
+  heroCurrencyEuro,
+  heroSquare3Stack3d,
+  heroClipboardDocumentList,
+  heroCalendarDays,
+  heroAdjustmentsHorizontal,
+  heroXMark,
+  heroCog6Tooth
+} from '@ng-icons/heroicons/outline';
 
 registerLocaleData(localeDe);
 
@@ -29,5 +40,16 @@ export const appConfig: ApplicationConfig = {
       useClass: TokenInterceptorService,
       multi: true,
     },
+    provideIcons({
+      heroMapPin,
+      heroUser,
+      heroCurrencyEuro,
+      heroCalendarDays,
+      heroSquare3Stack3d,
+      heroClipboardDocumentList,
+      heroAdjustmentsHorizontal,
+      heroXMark,
+      heroCog6Tooth
+    })
   ],
 };

@@ -1,8 +1,7 @@
 import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {TutoringSessionForStudent} from '../../../models/tutoring-session';
 import {TutoringDataService} from '../../../services/tutoring-data.service';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroMapPin, heroUser} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 import {User} from '../../../models/user';
 import {getFullName} from '../../../utils/get-full-name';
 import {BadgeComponent} from '../../shared/badge/badge.component';
@@ -10,13 +9,12 @@ import {getTimeRange} from '../../../utils/get-time-range';
 import {getFullLocation} from '../../../utils/get-full-location';
 import {DatePipe} from '@angular/common';
 import {Address} from '../../../models/address';
-import {translateStatus} from '../../../utils/status-translation';
+import {getStatusTranslation} from '../../../utils/status-translation';
 
 @Component({
   selector: 'app-student-tutoring-session-list',
   imports: [NgIcon, BadgeComponent, DatePipe],
   templateUrl: './student-tutoring-session-list.component.html',
-  providers: [provideIcons({heroMapPin, heroUser})],
   standalone: true,
 })
 export class StudentTutoringSessionListComponent implements OnInit {
@@ -65,8 +63,8 @@ export class StudentTutoringSessionListComponent implements OnInit {
   getTimeRange(startTime: Date, duration: number): string {
     return getTimeRange(startTime, duration);
   }
-  
+
   getStatusTranslation(status: string): string {
-    return translateStatus(status, 'student');
+    return getStatusTranslation(status, 'student');
   }
 }

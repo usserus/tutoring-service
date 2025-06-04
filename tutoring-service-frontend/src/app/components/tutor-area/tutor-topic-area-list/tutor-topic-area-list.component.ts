@@ -5,8 +5,7 @@ import {TutoringDataService} from '../../../services/tutoring-data.service';
 import {ButtonComponent} from '../../shared/button/button.component';
 import {BadgeComponent} from '../../shared/badge/badge.component';
 import {TutorTopicAreaModalFormComponent} from '../tutor-topic-area-modal-form/tutor-topic-area-modal-form.component';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroCog6Tooth} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 
 @Component({
   selector: 'app-tutor-topic-area-list',
@@ -18,7 +17,6 @@ import {heroCog6Tooth} from '@ng-icons/heroicons/outline';
     NgIcon,
   ],
   templateUrl: './tutor-topic-area-list.component.html',
-  providers: [provideIcons({heroCog6Tooth})],
   standalone: true,
 })
 export class TutorTopicAreaListComponent implements OnInit {

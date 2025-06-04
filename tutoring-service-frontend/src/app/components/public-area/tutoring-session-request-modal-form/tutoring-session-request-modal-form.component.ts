@@ -7,8 +7,7 @@ import {
   Signal,
 } from '@angular/core';
 import {TopicAreaWithTutoringSessions} from '../../../models/topic-area';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroXMark} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 import {TutoringDataService} from '../../../services/tutoring-data.service';
 import {
   FormBuilder,
@@ -25,7 +24,6 @@ import {TutoringSessionRequestFactory} from '../../../models/Factorys/tutoring-s
   selector: 'app-tutoring-session-request-modal-form',
   imports: [NgIcon, ReactiveFormsModule, ButtonComponent],
   templateUrl: './tutoring-session-request-modal-form.component.html',
-  providers: [provideIcons({heroXMark})],
   standalone: true,
   styles: `
     .modal {

@@ -2,8 +2,7 @@ import {Component, inject, signal, OnInit, computed} from '@angular/core';
 import {TutoringDataService} from '../../../services/tutoring-data.service';
 import {TutoringSubject} from '../../../models/tutoring-subject';
 import {RouterLink} from '@angular/router';
-import {NgIcon, provideIcons} from '@ng-icons/core';
-import {heroUser} from '@ng-icons/heroicons/outline';
+import {NgIcon} from '@ng-icons/core';
 import {getFullName} from '../../../utils/get-full-name';
 import {User} from '../../../models/user';
 
@@ -11,7 +10,6 @@ import {User} from '../../../models/user';
   selector: 'app-tutoring-subject-list',
   imports: [RouterLink, NgIcon],
   templateUrl: './tutoring-subject-list.component.html',
-  providers: [provideIcons({heroUser})],
   standalone: true,
 })
 export class TutoringSubjectListComponent implements OnInit {
