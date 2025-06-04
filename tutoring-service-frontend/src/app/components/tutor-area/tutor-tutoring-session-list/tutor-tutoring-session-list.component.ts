@@ -13,6 +13,7 @@ import {User} from '../../../models/user';
 import {Address} from '../../../models/address';
 import {TutoringSessionRequestFactory} from '../../../models/Factorys/tutoring-session-request-factory';
 import {getStatusTranslation} from '../../../utils/status-translation';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-tutor-tutoring-session-list',
@@ -43,7 +44,8 @@ export class TutorTutoringSessionListComponent implements OnInit {
     });
   });
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private toastr: ToastrService) {
   }
 
   tutoringDataService = inject(TutoringDataService);
@@ -74,6 +76,12 @@ export class TutorTutoringSessionListComponent implements OnInit {
     this.tutoringDataService
       .updateTutoringSessionForTutor(newTutoringSessionRequest)
       .subscribe(() => {
+        this.toastr.success(
+          'Anfrage wurde erfolgreich angenommen!',
+          'Tutor-Ring', {
+            progressBar: true,
+          }
+        );
       });
   }
 

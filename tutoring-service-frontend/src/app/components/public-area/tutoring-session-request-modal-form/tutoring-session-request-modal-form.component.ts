@@ -19,6 +19,7 @@ import {ButtonComponent} from '../../shared/button/button.component';
 import {TutoringSessionValidators} from '../../../shared/validators/tutoring-session-validators';
 import {TutoringSessionRequestModalFormErrorMessages} from './tutoring-session-request-modal-form-error-messages';
 import {TutoringSessionRequestFactory} from '../../../models/Factorys/tutoring-session-request-factory';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-tutoring-session-request-modal-form',
@@ -43,6 +44,7 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ts: TutoringDataService,
+    private toastr: ToastrService,
   ) {
     this.tutoringSessionRequestModalForm = this.fb.group({});
   }
@@ -115,6 +117,12 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
     this.ts.createTutoringSession(newTutoringSessionRequest).subscribe(() => {
       this.tutoringSessionRequestModalForm.reset();
       this.onCloseModal();
+      this.toastr.success(
+        'Deine Anfrage wurde erfolgreich gesendet!',
+        'Tutor-Ring', {
+          progressBar: true,
+        }
+      );
     });
   }
 }

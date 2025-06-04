@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ButtonComponent} from '../../shared/button/button.component';
+import {ToastrService} from 'ngx-toastr';
 
 interface Response {
   access_token: string;
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthenticationService,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({});
   }
@@ -35,9 +37,12 @@ export class LoginComponent implements OnInit {
   login() {
     const val = this.loginForm.value;
     this.authService.login(val.username, val.password).subscribe((res: any) => {
-      this.authService.setSessionStorage((res as Response).access_token);
-      this.router.navigateByUrl('/');
-    });
+        this.authService.setSessionStorage((res as Response).access_token);
+        this.router.navigateByUrl('/');
+      }, () => {
+        this.toastr.error('Inkorrekte Login Daten!', 'Tutor-Ring');
+      }
+    );
   }
 
   isLoggedIn() {

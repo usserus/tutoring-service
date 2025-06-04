@@ -15,6 +15,14 @@ h2 {
   @apply text-lg;
 }
 
+#toast-container > div {
+  @apply rounded-md shadow-lg border border-slate-700 bg-gray-900 text-xs;
+}
+
+.toast-progress {
+  background-color: rgb(0, 193, 218) !important;
+}
+
 @layer components {
   .sidebar-link {
     @apply flex items-center gap-2 hover:text-gray-50;

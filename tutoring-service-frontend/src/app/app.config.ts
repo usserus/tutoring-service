@@ -26,6 +26,8 @@ import {
   heroXMark,
   heroCog6Tooth
 } from '@ng-icons/heroicons/outline';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {provideToastr} from 'ngx-toastr';
 
 registerLocaleData(localeDe);
 
@@ -50,6 +52,8 @@ export const appConfig: ApplicationConfig = {
       heroAdjustmentsHorizontal,
       heroXMark,
       heroCog6Tooth
-    })
+    }),
+    provideAnimations(),
+    provideToastr(),
   ],
 };

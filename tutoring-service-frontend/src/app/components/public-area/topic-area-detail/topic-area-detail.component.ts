@@ -15,6 +15,7 @@ import {DatePipe} from '@angular/common';
 import {getTimeRange} from '../../../utils/get-time-range';
 import {getFullLocation} from '../../../utils/get-full-location';
 import {Address} from '../../../models/address';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-topic-area-detail',
@@ -36,6 +37,7 @@ export class TopicAreaDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthenticationService,
+    private toastr: ToastrService,
   ) {
   }
 
@@ -85,6 +87,9 @@ export class TopicAreaDetailComponent implements OnInit {
       .subscribe(() => {
         const topicArea = this.topicArea();
         if (!topicArea?.tutoring_sessions) return;
+        this.toastr.success('Nachhilfestunde erfolgreich angefragt!', 'Tutor-Ring', {
+          progressBar: true,
+        });
 
         const updatedTutoringSessions = topicArea.tutoring_sessions.filter(
           (session) => session.id !== tutoringSession.id,
