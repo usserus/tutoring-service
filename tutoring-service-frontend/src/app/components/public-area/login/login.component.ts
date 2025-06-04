@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ButtonComponent} from '../../shared/button/button.component';
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      username: [''],
-      password: [''],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 

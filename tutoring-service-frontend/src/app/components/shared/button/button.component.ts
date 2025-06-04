@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Component, input, output} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -25,7 +25,7 @@ export class ButtonComponent {
       case 'tertiary':
         return 'text-sm bg-slate-900 border border-slate-800 rounded-md px-2 py-1 cursor-pointer hover:bg-slate-800 hover:border-slate-700';
       default:
-        return 'bg-slate-800 border border-slate-700 rounded-md px-2 py-1 cursor-pointer hover:bg-slate-700 hover:border-slate-600';
+        return 'bg-slate-800 border border-slate-700 rounded-md px-2 py-1 cursor-pointer hover:bg-slate-700 hover:border-slate-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-slate-800';
     }
   }
 }
