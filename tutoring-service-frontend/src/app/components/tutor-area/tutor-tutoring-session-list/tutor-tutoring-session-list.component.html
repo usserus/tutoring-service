@@ -2,7 +2,6 @@
   <div>
     <div class="flex justify-between">
       <h1 class="mb-4">Meine Termine zum {{ topicArea()?.title }} Kurs</h1>
-      <!--    <app-button variant="primary" label="Termin hinzufügen"></app-button>-->
     </div>
     <div class="grid grid-cols-3 gap-4 mb-4">
       <div class="feature-box flex items-center gap-3">
@@ -42,7 +41,7 @@
     <div class="flex gap-3 mb-4 rounded-md px-2 py-2 ring ring-indigo-500/50">
       <app-badge
         (click)="setStatusFilter(null)"
-        label="All"
+        label="Alle"
         [isButton]="true"
         [isActive]="selectedStatus() === null"
       ></app-badge>
@@ -50,7 +49,7 @@
         <app-badge
           (click)="setStatusFilter(status)"
           variant="{{ status }}"
-          label="{{ status }}"
+          label="{{ getStatusTranslation(status) }}"
           [isButton]="true"
           [isActive]="selectedStatus() === status"
         ></app-badge>
@@ -59,10 +58,8 @@
   </div>
 
   <div class="flex flex-col gap-3">
-    @for (
-      tutoringSession of filteredTutoringSessions();
-      track tutoringSession
-    ) {
+    @for (tutoringSession of filteredTutoringSessions();
+      track tutoringSession) {
       <a class="custom-card flex justify-between">
         <div>
           <div class="flex flex-row gap-20 mb-3 text-sm">
@@ -84,8 +81,8 @@
 
             <div class="flex flex-col gap-2 mr-2">
               <span>{{
-                tutoringSession.price ? tutoringSession.price + " €" : "–"
-              }}</span>
+                  tutoringSession.price ? tutoringSession.price + " €" : "–"
+                }}</span>
               <span>
                 {{ getFullLocation(tutoringSession.location) }}
               </span>
@@ -93,7 +90,7 @@
           </div>
           <app-badge
             variant="{{ tutoringSession.status }}"
-            label="{{ tutoringSession.status }}"
+            label="{{ getStatusTranslation(tutoringSession.status) }}"
           ></app-badge>
         </div>
         @if (tutoringSession.status === "requested") {

@@ -12,6 +12,7 @@ import {DatePipe} from '@angular/common';
 import {User} from '../../../models/user';
 import {Address} from '../../../models/address';
 import {TutoringSessionRequestFactory} from '../../../models/Factorys/tutoring-session-request-factory';
+import {translateStatus} from '../../../utils/status-translation';
 
 @Component({
   selector: 'app-tutor-tutoring-session-list',
@@ -86,5 +87,9 @@ export class TutorTutoringSessionListComponent implements OnInit {
 
   getFullLocation(location?: Address): string {
     return getFullLocation(location);
+  }
+
+  getStatusTranslation(status: string): string {
+    return translateStatus(status, 'tutor');
   }
 }

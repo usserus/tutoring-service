@@ -3,7 +3,7 @@
   <div class="flex gap-3 mb-4 rounded-md px-2 py-2 ring ring-indigo-500/50">
     <app-badge
       (click)="setStatusFilter(null)"
-      label="All"
+      label="Alle"
       [isButton]="true"
       [isActive]="selectedStatus() === null"
     ></app-badge>
@@ -11,25 +11,23 @@
       <app-badge
         (click)="setStatusFilter(status)"
         variant="{{ status }}"
-        label="{{ status }}"
+        label="{{ getStatusTranslation(status) }}"
         [isButton]="true"
         [isActive]="selectedStatus() === status"
       ></app-badge>
     }
   </div>
   <div class="flex flex-col gap-3">
-    @for (
-      tutoringSession of filteredTutoringSessions();
-      track tutoringSession
-    ) {
+    @for (tutoringSession of filteredTutoringSessions();
+      track tutoringSession) {
       <a class="custom-card">
         <div class="flex justify-between mb-3">
           <h2>{{ tutoringSession.topic_area.title }}</h2>
           <div class="flex items-center gap-2">
             <ng-icon name="heroMapPin" size="15"></ng-icon>
             <span class="text-sm">{{
-              getFullLocation(tutoringSession.location)
-            }}</span>
+                getFullLocation(tutoringSession.location)
+              }}</span>
           </div>
         </div>
         <div class="flex items-center gap-2 mb-2">
@@ -53,7 +51,7 @@
           <div>
             <app-badge
               variant="{{ tutoringSession.status }}"
-              label="{{ tutoringSession.status }}"
+              label="{{ getStatusTranslation(tutoringSession.status) }}"
             ></app-badge>
           </div>
         </div>

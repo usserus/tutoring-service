@@ -10,6 +10,7 @@ import {getTimeRange} from '../../../utils/get-time-range';
 import {getFullLocation} from '../../../utils/get-full-location';
 import {DatePipe} from '@angular/common';
 import {Address} from '../../../models/address';
+import {translateStatus} from '../../../utils/status-translation';
 
 @Component({
   selector: 'app-student-tutoring-session-list',
@@ -63,5 +64,9 @@ export class StudentTutoringSessionListComponent implements OnInit {
 
   getTimeRange(startTime: Date, duration: number): string {
     return getTimeRange(startTime, duration);
+  }
+  
+  getStatusTranslation(status: string): string {
+    return translateStatus(status, 'student');
   }
 }
