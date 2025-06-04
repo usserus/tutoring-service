@@ -28,6 +28,7 @@ import {
 } from '../../public-area/tutoring-session-request-modal-form/tutoring-session-request-modal-form-error-messages';
 import {TopicAreaRequestFactory} from '../../../models/Factorys/topic-area-request-factory';
 import {formatDateToDatetimeLocal} from '../../../utils/format-date-to-datetime-local';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-tutor-topic-area-modal-form',
@@ -57,6 +58,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
     private fb: FormBuilder,
     private ts: TutoringDataService,
     private authService: AuthenticationService,
+    private toastr: ToastrService,
   ) {
     this.topicAreaModalForm = this.fb.group({});
     this.tutoringSessions = this.fb.array([]);
@@ -190,10 +192,16 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
     if (this.isUpdatingTopicArea()) {
       this.ts.updateTopicArea(newTopicAreaRequest).subscribe(() => {
         this.onCloseModal();
+        this.toastr.success('Kurs erfolgreich aktualisiert!', 'Tutor-Ring', {
+          progressBar: true,
+        });
       });
     } else {
       this.ts.createTopicArea(newTopicAreaRequest).subscribe(() => {
         this.onCloseModal();
+        this.toastr.success('Kurs erfolgreich aktualisiert!', 'Tutor-Ring', {
+          progressBar: true,
+        });
       });
     }
   }
