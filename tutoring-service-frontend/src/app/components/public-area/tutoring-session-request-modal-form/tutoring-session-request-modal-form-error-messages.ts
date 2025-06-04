@@ -8,7 +8,7 @@ export class ErrorMessage {
 }
 
 export const TutoringSessionRequestModalFormErrorMessages: ErrorMessage[] = [
-  new ErrorMessage('title', 'required', 'Der Titel ist erforderlich.'), // TODO auslagern und ein einheitliches file mit allen error messages
+  new ErrorMessage('title', 'required', 'Der Titel ist erforderlich.'),
   new ErrorMessage(
     'description',
     'required',
