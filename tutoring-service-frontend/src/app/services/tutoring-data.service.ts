@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, map, Observable, retry, throwError } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {catchError, map, Observable, retry, throwError} from 'rxjs';
 import {
   TutoringSubject,
   TutoringSubjectForTutor,
@@ -17,10 +17,12 @@ import {
   TutoringSessionForStudent,
   TutoringSessionRequest,
 } from '../models/tutoring-session';
-import { User } from '../models/user';
-import { TopicAreaWithTutoringSessionsFactory } from '../models/Factorys/topic-area-with-tutoring-sessions-factory';
-import { TopicAreasWithTutoringSessionsForTutorFactory } from '../models/Factorys/topic-areas-with-tutoring-sessions-for-tutor-factory';
-import { TutoringSessionForStudentFactory } from '../models/Factorys/tutoring-session-for-student-factory';
+import {User} from '../models/user';
+import {TopicAreaWithTutoringSessionsFactory} from '../models/Factorys/topic-area-with-tutoring-sessions-factory';
+import {
+  TopicAreasWithTutoringSessionsForTutorFactory
+} from '../models/Factorys/topic-areas-with-tutoring-sessions-for-tutor-factory';
+import {TutoringSessionForStudentFactory} from '../models/Factorys/tutoring-session-for-student-factory';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +30,8 @@ import { TutoringSessionForStudentFactory } from '../models/Factorys/tutoring-se
 export class TutoringDataService {
   private api = 'http://tutoring-service.s2210456008.student.kwmhgb.at/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getAllPublicTutoringSubjects(): Observable<Array<TutoringSubject>> {
     return this.http

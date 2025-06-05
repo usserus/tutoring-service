@@ -55,10 +55,8 @@
       }
     </div>
     <div class="grid grid-cols-2 gap-3">
-      @for (
-        tutoringSession of topicArea()?.tutoring_sessions;
-        track tutoringSession
-      ) {
+      @for (tutoringSession of topicArea()?.tutoring_sessions;
+        track tutoringSession) {
         <div class="feature-box-item flex flex-col gap-3">
           <div class="flex justify-between">
             <span> {{ tutoringSession?.start_time | date: "dd.MM.yyyy" }}</span>

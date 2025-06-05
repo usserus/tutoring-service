@@ -1,7 +1,7 @@
 import {
   Component,
   effect,
-  EventEmitter,
+  EventEmitter, input,
   Input,
   OnInit,
   Output,
@@ -67,11 +67,13 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
 
   ngOnInit() {
     this.ts.getAllUsers().subscribe((res) => {
+      // Fetch all students to populate the student dropdown in the form
       this.students = res;
     });
   }
 
   registerModalEffect() {
+    // Effect runs whenever the modal is opened or closed
     effect(() => {
       if (this.isModalOpen()) {
         if (this.topicAreaSlug !== null) {
@@ -91,6 +93,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
   }
 
   onCloseModal() {
+    // Emit the close event and reset the form and topic area
     this.closeModal.emit();
     this.topicArea = null;
     this.tutoringSessions.clear();
@@ -98,6 +101,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
 
   initTopicArea() {
     this.buildTutoringSessionsArray();
+    // Initialize the form with the topic area data or empty values
     this.topicAreaModalForm = this.fb.group({
       title: [this.topicArea?.title || '', Validators.required],
       description: [this.topicArea?.description || '', Validators.required],
@@ -109,6 +113,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
   }
 
   private buildTutoringSessionsArray() {
+    // Initialize the tutoring sessions array with existing sessions or an empty session
     if (this.topicArea?.tutoring_sessions) {
       this.tutoringSessions = this.fb.array([]);
       for (let tutoringSession of this.topicArea.tutoring_sessions) {
@@ -144,6 +149,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
   }
 
   addTutoringSessionControl() {
+    // Add a new empty tutoring session control to the form array
     this.tutoringSessions.push(
       this.fb.group({
         id: [null],
@@ -162,6 +168,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
   }
 
   updateErrorMessages() {
+    // Clear previous errors and rebuild the error messages
     this.errors = {};
     for (const message of TutoringSessionRequestModalFormErrorMessages) {
       const control = this.topicAreaModalForm.get(message.forControl);
@@ -180,7 +187,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
 
   submitForm() {
     const formValue = this.topicAreaModalForm.value;
-
+    // Create a new TopicAreaRequest object from the form value
     const newTopicAreaRequest = TopicAreaRequestFactory.fromObject({
       ...formValue,
       id: this.topicArea?.id || 0,
@@ -189,6 +196,7 @@ export class TutorTopicAreaModalFormComponent implements OnInit {
       tutor_id: this.authService.getCurrentUserId(),
     });
 
+    // If updating an existing topic area, call the update method; otherwise, create a new one
     if (this.isUpdatingTopicArea()) {
       this.ts.updateTopicArea(newTopicAreaRequest).subscribe(() => {
         this.onCloseModal();

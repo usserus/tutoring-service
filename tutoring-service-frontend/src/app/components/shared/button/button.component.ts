@@ -7,6 +7,8 @@ import {Component, input, output} from '@angular/core';
   templateUrl: './button.component.html',
   standalone: true,
 })
+
+// source: https://www.youtube.com/watch?v=RNr1QZM4A38&t=4477s&ab_channel=ZoaibKhan
 export class ButtonComponent {
   type = input<string>('button');
   label = input<string>();

@@ -58,6 +58,7 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
   }
 
   initTutoringSession() {
+    // Initialize the form with default values
     const now = new Date();
     this.tutoringSessionRequestModalForm = this.fb.group({
       date: [
@@ -86,6 +87,7 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
 
   updateErrorMessages() {
     this.errors = {};
+    // Iterate over the error messages and check the form controls
     for (const message of TutoringSessionRequestModalFormErrorMessages) {
       const control = this.tutoringSessionRequestModalForm.get(
         message.forControl,
@@ -111,6 +113,7 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
       topic_area_id: this.topicArea?.id || 0,
     };
 
+    // create a new TutoringSessionRequest object from the form values
     const newTutoringSessionRequest =
       TutoringSessionRequestFactory.fromObject(extendedFormValue);
 

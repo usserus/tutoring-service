@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from 'jwt-decode';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {jwtDecode} from 'jwt-decode';
 
 interface Token {
   exp: number;
@@ -17,10 +17,11 @@ export class AuthenticationService {
   private api =
     'http://tutoring-service.s2210456008.student.kwmhgb.at/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   login(email: string, password: string) {
-    return this.http.post(`${this.api}/login`, { email, password });
+    return this.http.post(`${this.api}/login`, {email, password});
   }
 
   logout() {
@@ -29,6 +30,7 @@ export class AuthenticationService {
     sessionStorage.removeItem('userId');
   }
 
+  // Checks if the user is logged in by verifying the token in sessionStorage
   public isLoggedIn(): boolean {
     if (sessionStorage.getItem('token')) {
       let token: string = <string>sessionStorage.getItem('token');
@@ -46,6 +48,7 @@ export class AuthenticationService {
     }
   }
 
+  // Checks if the user is a tutor by decoding the token in sessionStorage
   public isTutor(): boolean {
     const token = sessionStorage.getItem('token');
     if (token) {

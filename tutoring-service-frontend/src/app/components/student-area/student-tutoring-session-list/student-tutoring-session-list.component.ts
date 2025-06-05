@@ -20,11 +20,14 @@ import {getStatusTranslation} from '../../../utils/status-translation';
 export class StudentTutoringSessionListComponent implements OnInit {
   tutoringSessions = signal<TutoringSessionForStudent[]>([]);
   selectedStatus = signal<string | null>(null);
+  // List of available statuses for filtering
   availableStatuses = computed(() => {
     const sessions = this.tutoringSessions();
     const statuses = sessions.map((s) => s.status);
+    // Use Set to remove duplicates and sort the statuses
     return Array.from(new Set(statuses)).sort();
   });
+  // Computed property to filter tutoring sessions based on selected status
   filteredTutoringSessions = computed(() => {
     const status = this.selectedStatus();
     const tutoringSessions = this.tutoringSessions();
@@ -33,7 +36,8 @@ export class StudentTutoringSessionListComponent implements OnInit {
       ? tutoringSessions.filter((s) => s.status === status)
       : tutoringSessions;
 
-    return filtered.slice().sort((a, b) => {
+    // Sort the filtered sessions by start time in descending order
+    return filtered.sort((a, b) => {
       return (
         new Date(b.start_time).getTime() - new Date(a.start_time).getTime()
       );

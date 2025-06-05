@@ -20,7 +20,7 @@ import {NgIcon} from '@ng-icons/core';
   standalone: true,
 })
 export class TutorTopicAreaListComponent implements OnInit {
-  tutoringSubject = signal<TutoringSubjectWithTopicAreasForTutor | null>(null); // undefined anstelle null?
+  tutoringSubject = signal<TutoringSubjectWithTopicAreasForTutor | null>(null);
   isModalOpen = signal(false);
   editedTopicAreaSlug = signal<string | null>(null);
   tutoringSubjectId = signal<number>(-1);
@@ -31,7 +31,9 @@ export class TutorTopicAreaListComponent implements OnInit {
   tutoringDataService = inject(TutoringDataService);
 
   ngOnInit(): void {
+    // Get the tutoring subject slug from the route parameters
     const tutoringSubjectSlug = this.route.snapshot.params['tutoring-subject'];
+    // Fetch the tutoring subject with topic areas by slug
     this.tutoringDataService
       .getOwnTutoringSubjectWithTopicAreasBySlug(tutoringSubjectSlug)
       .subscribe((res) => this.tutoringSubject.set(res));
@@ -42,6 +44,7 @@ export class TutorTopicAreaListComponent implements OnInit {
   }
 
   openModal(topicAreaSlug?: string | null, tutoringSubjectId?: number) {
+    // Reset the form and set the topic area slug and tutoring subject ID
     this.editedTopicAreaSlug.set(topicAreaSlug ?? null);
     this.tutoringSubjectId.set(tutoringSubjectId ?? -1);
     this.isModalOpen.set(true);

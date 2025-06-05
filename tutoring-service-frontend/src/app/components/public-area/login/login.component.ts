@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   login() {
     const val = this.loginForm.value;
     this.authService.login(val.username, val.password).subscribe((res: any) => {
+        // Set the access token in session storage
         this.authService.setSessionStorage((res as Response).access_token);
         this.router.navigateByUrl('/');
       }, () => {
