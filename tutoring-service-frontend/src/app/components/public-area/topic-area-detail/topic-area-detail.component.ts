@@ -26,8 +26,6 @@ import {ToastrService} from 'ngx-toastr';
     DatePipe,
   ],
   templateUrl: './topic-area-detail.component.html',
-  providers: [
-    {provide: TutoringDataService, useClass: TutoringDataService}],
   standalone: true,
 })
 export class TopicAreaDetailComponent implements OnInit {

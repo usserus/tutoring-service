@@ -110,7 +110,7 @@ export class TutoringSessionRequestModalFormComponent implements OnInit {
     const extendedFormValue = {
       ...formValue,
       id: 0,
-      topic_area_id: this.topicArea?.id || 0,
+      topic_area_id: this.topicArea?.id,
     };
 
     // create a new TutoringSessionRequest object from the form values

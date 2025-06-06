@@ -8,11 +8,10 @@ import {RouterLink} from '@angular/router';
   selector: 'app-topic-area-list',
   imports: [RouterLink],
   templateUrl: './topic-area-list.component.html',
-  providers: [{provide: TutoringDataService, useClass: TutoringDataService}],
   standalone: true,
 })
 export class TopicAreaListComponent implements OnInit {
-  tutoringSubject = signal<TutoringSubjectWithTopicAreas | null>(null); // undefined anstelle null?
+  tutoringSubject = signal<TutoringSubjectWithTopicAreas | null>(null);
 
   constructor(private route: ActivatedRoute) {
   }
