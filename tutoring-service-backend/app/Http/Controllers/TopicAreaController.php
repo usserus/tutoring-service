@@ -20,7 +20,7 @@ class TopicAreaController extends Controller
             ->with([
                 'tutoringSubject:id,title',
                 'tutor:id,first_name,last_name',
-                'tutoringSessions' => function ($query) {
+                'tutoringSessions' => function ($query) { // scopeWithAvailableTutoringSessions in TopicArea model
                     $query->where('status', 'available')
                         ->orderBy('start_time', 'asc')
                         ->select('id', 'topic_area_id', 'location_id', 'start_time', 'duration', 'price', 'status')
@@ -29,7 +29,7 @@ class TopicAreaController extends Controller
                         ]);
                 }
             ])
-            ->withMin([
+            ->withMin([ // scopeWithLowestPrice in TopicArea model
                 'tutoringSessions as lowest_price' => function ($query) {
                     $query->where('status', 'available');
                 }

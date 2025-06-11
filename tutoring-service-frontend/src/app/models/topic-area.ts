@@ -1,14 +1,14 @@
-import { User } from './user';
-import { TutoringSubject } from './tutoring-subject';
-import { TutoringSession } from './tutoring-session';
-import { Address } from './address';
+import {User} from './user';
+import {TutoringSubject} from './tutoring-subject';
+import {TutoringSession} from './tutoring-session';
 
 class TopicAreaBase {
   constructor(
     public id: number,
     public title: string,
     public slug: string,
-  ) {}
+  ) {
+  }
 }
 
 // used for topic areas with tutoring sessions detail view

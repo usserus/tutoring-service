@@ -1,5 +1,6 @@
 export function formatDateToDatetimeLocal(date: Date): string {
   // Source: ChatGPT - Format the date to match the 'datetime-local' input type
+  // https://dev.to/kevinluo201/set-value-of-datetime-local-input-field-3435
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
